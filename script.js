@@ -2,38 +2,49 @@
 const tasks = [];
 
 document.querySelector("form").addEventListener("submit", function (e) {
-  e.preventDefault(); // Prevent the form from submitting normally
+    e.preventDefault(); // Prevent the form from submitting normally
 
-  const form = e.target; // Get the form element
-  const formData = new FormData(form); // Create a FormData object
+    const form = e.target; // Get the form element
+    const formData = new FormData(form); // Create a FormData object
 
-  // Convert the FormData object into an array of objects
-  const formValues = Array.from(formData.entries());
+    // Convert the FormData object into an array of objects
+    const formValues = Array.from(formData.entries());
 
-  // Create an object to store the current form data
-  const taskObject = {};
+    // Create an object to store the current form data
+    const taskObject = {};
 
-  // Iterate through the form values and add them to the taskObject
-  for (const [name, value] of formValues) {
-    taskObject[name] = value;
-  }
-  taskObject.completed = false;
+    // Iterate through the form values and add them to the taskObject
+    for (const [name, value] of formValues) {
+        taskObject[name] = value;
+    }
 
-  // Add the taskObject to the tasks array
-  tasks.push(taskObject);
+    // Check if the button text is "Add" or "Save"
+    if (document.getElementById("add-button").innerText === "Add") {
+        taskObject.completed = false;
+        // Add the taskObject to the tasks array
+        tasks.push(taskObject);
+    } else {
+        // Get the index of the task being edited
+        let index = parseInt(document.getElementById("add-button").getAttribute("data-index"));
+        // Update the task at the specified index with the new values
+        tasks[index] = { ...tasks[index], ...taskObject };
+        // Reset the button text to "Add"
+        document.getElementById("add-button").innerText = "Add";
+        alert("Task Updated Successfully!!")
+    }
 
-  // Log the updated tasks array (for demonstration purposes)
-//   console.log(tasks);
+    // Log the updated tasks array (for demonstration purposes)
+    //   console.log(tasks);
 
-  // Clear the form fields (optional)
-  form.reset();
+    // Clear the form fields (optional)
+    form.reset();
 
-  updateTable(tasks);
-  showUpcomingIncompleteTasks();
+    updateTable(tasks);
+    showUpcomingIncompleteTasks();
 
 });
 
-function updateTable(tasks){
+function updateTable(tasks) {
     const taskList = document.querySelector("tbody");
     taskList.innerHTML = ""; // Clear existing rows
 
@@ -42,65 +53,72 @@ function updateTable(tasks){
         const row = document.createElement("tr");
         row.className = task.completed ? 'completed' : ""
         for (const key in task) {
-            if(key!=='completed'){
-            const cell = document.createElement("td");
-            cell.textContent = task[key];
-            cell.onclick = ()=>{
-                task.completed = !task.completed
-                showUpcomingIncompleteTasks();
-                updateTable(tasks);
-            }
-            row.appendChild(cell);
+            if (key !== 'completed') {
+                const cell = document.createElement("td");
+                cell.textContent = task[key];
+                cell.onclick = () => {
+                    task.completed = !task.completed
+                    showUpcomingIncompleteTasks();
+                    updateTable(tasks);
+                }
+                row.appendChild(cell);
             }
         }
-        
-       
-        
 
-         // Add Edit and Delete buttons
-         const editButton = document.createElement("button");
-         editButton.textContent = "Edit";
-         editButton.addEventListener("click", () => {
-            alert('edit clicked') 
+
+
+
+        // Add Edit and Delete buttons
+        const editButton = document.createElement("button");
+        editButton.textContent = "Edit";
+        editButton.addEventListener("click", () => {
             // Handle edit logic here
-             // For example, open a modal or pre-fill input fields
-         });
- 
-         const deleteButton = document.createElement("button");
-         deleteButton.textContent = "Delete";
-         deleteButton.addEventListener("click", () => {
-            alert('delete clicked') 
-            // Handle delete logic here
-             // For example, remove the row from the table
-            //  row.remove();
-         });
- 
-         const buttonCell = document.createElement("td");
-         buttonCell.appendChild(editButton);
-         buttonCell.appendChild(deleteButton);
-         row.appendChild(buttonCell);
- 
+            const indexToEdit = tasks.findIndex(obj => obj.title === task.title);
+            prefillform(indexToEdit);
+
+        });
+
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "Delete";
+        deleteButton.addEventListener("click", () => {
+
+            const indexToRemove = tasks.findIndex(obj => obj.title === task.title);
+
+            if (indexToRemove > -1) {
+                tasks.splice(indexToRemove, 1);// Remove one item at the specified index
+                // remove the row from the table
+                updateTable(tasks)
+            }
+
+
+        });
+
+        const buttonCell = document.createElement("td");
+        buttonCell.appendChild(editButton);
+        buttonCell.appendChild(deleteButton);
+        row.appendChild(buttonCell);
+
 
         taskList.appendChild(row);
     });
 
 }
 
-function searchTask(){
+function searchTask() {
     const searchInput = document.querySelector('#search').value.toLowerCase();
-    var filteredTasks = tasks.filter((task)=>{
+    var filteredTasks = tasks.filter((task) => {
         // return task.title.toLowerCase().includes(searchValue);
         const titleMatches = task.title.toLowerCase().includes(searchInput);
         const descriptionMatches = task.description.toLowerCase().includes(searchInput);
         const deadlineMatches = task.deadline.toLowerCase().includes(searchInput);
         const priorityMatches = task.priority.toLowerCase().includes(searchInput);
         const categoryMatches = task.category.toLowerCase().includes(searchInput);
-        
+
         // Return true if any property matches the search input
-        return titleMatches || descriptionMatches || deadlineMatches ||priorityMatches|| categoryMatches ;
+        return titleMatches || descriptionMatches || deadlineMatches || priorityMatches || categoryMatches;
 
     })
-   updateTable(filteredTasks);
+    updateTable(filteredTasks);
     // console.log(filteredTasks);
 
 }
@@ -121,10 +139,17 @@ function showUpcomingIncompleteTasks() {
         // Display the earliest task details (customize as needed)
         alert(`Upcoming task: ${earliestTask.title}`);
     } else {
-       alert("Hurray! Completed All tasks!!!");
+        alert("Hurray! Completed All tasks!!!");
     }
 }
 
-// function toggleCompleted(){
-
-// }
+function prefillform(indexToEdit) {
+    const taskToEdit = tasks[indexToEdit];
+    document.getElementById('title').value = taskToEdit.title;
+    document.getElementById('description').value = taskToEdit.description;
+    document.getElementById('deadline').value = taskToEdit.deadline;
+    document.getElementById('priority-dropdown').value = taskToEdit.priority;
+    document.getElementById('category-dropdown').value = taskToEdit.category;
+    document.getElementById('add-button').innerText = "Save";
+    document.getElementById("add-button").setAttribute("data-index", indexToEdit);
+}

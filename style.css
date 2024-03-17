@@ -5,7 +5,7 @@
 }
 body{
     
-    background-color: #000;
+    background-color: aliceblue;
     font-family: Georgia, 'Times New Roman', Times, serif;
 }
 .nav{
@@ -15,7 +15,7 @@ body{
     padding: 10px;
 }
 .container{
-    background-color: gray;
+    /* background-color: gray; */
     height: inherit;
     width: 100%;
     display: flex;  
@@ -23,7 +23,8 @@ body{
     /* gap: 10px; */
 }
 .create-task{
-   
+   border: 1px solid black;
+   border-radius: 5px;
     margin: 5px;
     padding: 10px;
     background-color: white;
@@ -47,12 +48,12 @@ body{
     padding: 5px;
 }
 .task-list{
+    border: 1px solid black;
+   border-radius: 5px;
     width: 100%;
-   /* flex-grow: 1; /* This makes the content div fill the remaining space */
-  /*overflow: auto; /* Add scrollbars if content overflows */
     margin: 5px;
     padding: 10px;
-    background-color: red;
+    background-color: rgb(232, 211, 211);
    
 }
 .task-list input{
@@ -62,9 +63,19 @@ body{
 }
 .task-list table{
     width: 100%;
-    border: 1px solid black;
+    /* border: 1px solid black; */
+}
+.task-list table tr td{
+   text-align: center;
 }
 tr.completed{
     text-decoration: line-through;
     color: gray;
 }
+.task-list button{
+    margin: 2px;
+    padding: 5px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
