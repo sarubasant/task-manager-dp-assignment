@@ -1,0 +1,70 @@
+/* css here */
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    
+    background-color: #000;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+.nav{
+    background-color: #000;
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
+.container{
+    background-color: gray;
+    height: inherit;
+    width: 100%;
+    display: flex;  
+    flex-direction: row; 
+    /* gap: 10px; */
+}
+.create-task{
+   
+    margin: 5px;
+    padding: 10px;
+    background-color: white;
+}
+.create-task form{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.create-task form input{
+    font-size: 16px;
+    padding: 5px;
+}
+.create-task form select{
+    font-size: 16px;
+    padding: 5px;
+}
+.create-task form button{
+    
+    font-size: 16px;
+    padding: 5px;
+}
+.task-list{
+    width: 100%;
+   /* flex-grow: 1; /* This makes the content div fill the remaining space */
+  /*overflow: auto; /* Add scrollbars if content overflows */
+    margin: 5px;
+    padding: 10px;
+    background-color: red;
+   
+}
+.task-list input{
+    font-size: 16px;
+    padding: 5px;
+    margin-bottom: 5px;
+}
+.task-list table{
+    width: 100%;
+    border: 1px solid black;
+}
+tr.completed{
+    text-decoration: line-through;
+    color: gray;
+}

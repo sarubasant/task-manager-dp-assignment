@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <div class="nav">
+        <h1>DP Task Manager</h1>
+    </div>
+    <div class="container">
+        <div class="create-task">
+
+            <div class="input-form">
+                <form name="myForm" action="" method="post">
+                    <label for="title"><h3 style="text-align: center;">Create New Task</h3></label>
+                    <input type="text" name="title" id="title" placeholder="Title" required>
+                    <input type="text" name="description" id="description" placeholder="Description" required>
+                   <label for="deadline">Deadline</label>
+                    <input type="date" name="deadline" id="deadline" required>
+                    <label for="priority-dropdown">Priority</label>
+                    <select name="priority" id="priority-dropdown">
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                    </select>
+                    <label for="category-dropdown">Category</label>
+                    <select name="category" id="category-dropdown">
+                        <option value="Personal">Personal</option>
+                        <option value="Work">Work</option>
+                        <option value="School">School</option>
+                    </select>
+
+                    <button type="submit" onclick="">Add</button>
+                </form>
+            </div>
+        </div>
+        <div class="task-list">
+            <input type="text" name="search" id="search" placeholder="Search" oninput="searchTask()">
+            <h4>Click on title to mark it as Completed</h4>
+            <table border="1">
+                <thead>
+                    <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Deadline</th>
+                    <th>Priority</th>
+                    <th>Category</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+<script src="./script.js"></script>    
+</body>
+
+</html>
